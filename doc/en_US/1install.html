@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+	<h1>Install</h1>
+	<h2>Requirements</h2>
+	<ul>
+		<li>Windows 10 or X11 (Mac OS is not supported yet)</li>
+		<li>OpenGL 3.3 or higher</li>
+	</ul>
+	<h2>Compile from source code</h2>
+	<p>To compile GSCV from source code, following dependencies are required:</p>
+	<ul>
+		<li>Qt 6</li>
+		<li>zlib</li>
+	</ul>
+	<h3>Qt Creator</h3>
+	<p>Linux users can open GSCV.pro by Qt Creator and compile it directly. Windows users need to customize the position of zlib.</p>
+	<p>Run "lrelease GSCV.pro" command, and copy "icon/", "shaders/", "doc/", "language/" to the program's directory. For Windows users, it is required to run "windeployqt build" command.</p>
+	<h3>Cmake</h3>
+	<p>First, download the repository and uncompress it (if needed).</p>
+	<ol start="1">
+		<li>wget https://</li>
+		<li>tar xzvf ... (if needed)</li>
+		<li>cd GSCV/</li>
+	</ol>
+	<p>Use Cmake to configure the project and compile it (for Windows users, it is required to prepare zlib and modify CMakeLists.txt manually).</p>
+	<ol start="4">
+		<li>mkdir build</li>
+		<li>cd build</li>
+		<li>cmake ..</li>
+		<li>make</li>
+		<li>cd ..</li>
+	</ol>
+	<p>Run "lrelease GSCV.pro" command, and copy "icon/", "shaders/", "doc/", "language/" to the program's directory. For Windows users, it is required to run "windeployqt build" command.</p>
+	</body>
+</html>

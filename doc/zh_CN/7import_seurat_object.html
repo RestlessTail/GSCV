@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+	<h1>导入Seurat对象</h1>
+	<h2>打开导入向导</h2>
+	<p>点击文件-导入，打开导入向导。</p>
+	<h2>将Seurat对象转换为制表符分隔的文件。</h2>
+	<p>以下R代码可以将一个Seurat对象导出为制表符分隔的文件。您可以在导入向导中找到此代码。</p>
+	<pre>
+export_gscv <- function(obj, pro){
+	if(dir.exists(pro) == F){
+		dir.create(pro)
+	}
+	write.table(obj@meta.data, file = paste0(pro, "/meta.tsv"), quote = F, sep = "\t", row.names = T, col.names = T)
+	data = t(FetchData(obj, vars = obj@assays$RNA@data@Dimnames[[1]]))
+	write.table(colnames(data), paste0(pro, "/index.tsv"), quote=F, sep="\t", col.names=F, row.names=F)
+	write.table(data, paste0(pro, "/expr.tsv"), quote=F, sep="\t", col.names=F)
+	write.table(Embeddings(obj,"umap"), file = paste0(pro, "/position.tsv"), quote = F, sep = "\t", row.names = T, col.names = F)
+}
+	</pre>
+	<p>参数：</p>
+	<ul>
+		<li>obj：一个Seurat对象。</li>
+		<li>pro：工程名（此参数并不影响导出的文件的内容，只影响它们的名字）。</li>
+	</ul>
+	<p>比如，对于一个Seurat对象“hsa”，其工程名为“hsa_2022_7_1”，我们可以使用以下代码来导出对象。</p>
+	<code>
+		export_gscv(hsa, "hsa_2022_7_1");
+	</code>
+	<p>此代码将创建一个名为“hsa_2022_7_1”的文件夹，导出的文件都位于此目录中。</p>
+	<h2>选择导出的文件</h2>
+	<p>点击“浏览”按钮，然后选择刚刚R脚本创建的目录。</p>
+	<h2>指定GSCV归档文件的文件名</h2>
+	<p>点击“浏览”按钮，然后输入输出文件的文件名。</p>
+	<h2>组装GSCV归档文件</h2>
+	<p>点击“Next”，向导会自动组装GSCV归档文件。</p>
+	</body>
+</html>

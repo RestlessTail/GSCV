@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+	<h1>安装</h1>
+	<h2>需求</h2>
+	<ul>
+		<li>Windows 10 或 X11 (暂不支持Mac OS)</li>
+		<li>OpenGL 3.3或更高</li>
+	</ul>
+	<h2>从源代码编译</h2>
+	<p>要从源代码编译GSCV，您需要以下依赖项：</p>
+	<ul>
+		<li>Qt 6</li>
+		<li>zlib</li>
+	</ul>
+	<h3>Qt Creator</h3>
+	<p>Linux用户可以用Qt Creator打开GSCV.pro并直接编译。Windows用户需要自定义GSCV.pro中的zlib路径。</p>
+	<p>运行 “lrelease GSCV.pro” 命令，并将“icon/”, “shaders/”, “doc/”, “language/”拷贝到程序目录下。对于Windows用户，还需要运行 “windeployqt build” 命令。</p>
+	<h3>Cmake</h3>
+	<p>首先，下载代码仓库并解压（如果有需要的话）。</p>
+	<ol start="1">
+		<li>wget https://</li>
+		<li>tar xzvf ... (if needed)</li>
+		<li>cd GSCV/</li>
+	</ol>
+	<p>使用Cmake构建工程，并编译（Windows用户需要手动准备zlib并修改CMakeLists.txt）。</p>
+	<ol start="4">
+		<li>mkdir build</li>
+		<li>cd build</li>
+		<li>cmake ..</li>
+		<li>make</li>
+		<li>cd ..</li>
+	</ol>
+	<p>运行 “lrelease GSCV.pro” 命令，并将“icon/”, “shaders/”, “doc/”, “language/”拷贝到程序目录下。对于Windows用户，还需要运行 “windeployqt build” 命令。</p>
+	</body>
+</html>

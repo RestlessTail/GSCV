@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+	<h1>Import Seurat object</h1>
+	<h2>Open import wizard</h2>
+	<p>Click File-Import, and an import wizard is activated.</p>
+	<h2>Convert Seurat object to tab saperated value files</h2>
+	<p>These R scripts export a Seurat object to tab saperated value files. You can also find these scripts in the import wizard.</p>
+	<pre>
+export_gscv <- function(obj, pro){
+	if(dir.exists(pro) == F){
+		dir.create(pro)
+	}
+	write.table(obj@meta.data, file = paste0(pro, "/meta.tsv"), quote = F, sep = "\t", row.names = T, col.names = T)
+	data = t(FetchData(obj, vars = obj@assays$RNA@data@Dimnames[[1]]))
+	write.table(colnames(data), paste0(pro, "/index.tsv"), quote=F, sep="\t", col.names=F, row.names=F)
+	write.table(data, paste0(pro, "/expr.tsv"), quote=F, sep="\t", col.names=F)
+	write.table(Embeddings(obj,"umap"), file = paste0(pro, "/position.tsv"), quote = F, sep = "\t", row.names = T, col.names = F)
+}
+	</pre>
+	<p>Arguments:</p>
+	<ul>
+		<li>obj: a Seurat object.</li>
+		<li>pro: the name of the project. (It doesn't influence the content of the exported files, and it just determines the filenames of them).</li>
+	</ul>
+	<p>For example, we've got a Seurat object called "hsa", and the project name is "hsa_2022_7_1". Use this code to export the object.</p>
+	<code>
+		export_gscv(hsa, "hsa_2022_7_1");
+	</code>
+	<p>This code creates a directory called "hsa_2022_7_1", and exported files are in this directory.</p>
+	<h2>Select the exported files</h2>
+	<p>Click "select" button, and select the directory just created.</p>
+	<h2>Determine the filename of GSCV archive</h2>
+	<p>Click "select" button, and enter the filename of GSCV archive.</p>
+	<h2>Assemble GSCV archive</h2>
+	<p>Click "Next" and the wizard will assemble GSCV archive automatically.</p>
+	</body>
+</html>
