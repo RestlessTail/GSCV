@@ -6,11 +6,12 @@
 #include "settings.h"
 
 camera_setting::camera_setting(QWidget *parent) :
-    QWidget(parent),
+    right_panel_base(parent),
     ui(new Ui::camera_setting)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
+	set_panel_title(tr("Camera settings"));
 }
 camera_setting::~camera_setting()
 {
@@ -84,15 +85,7 @@ void camera_setting::on_size_edit_editingFinished()
 }
 void camera_setting::on_close_clicked()
 {
-	tab_widget_master->removeTab(tab_widget_master->indexOf(this));
-	*to_this = nullptr;
-	deleteLater();
-}
-void camera_setting::set_to_this(camera_setting** new_to_this){
-	to_this = new_to_this;
-}
-void camera_setting::set_tab_widget_master(QTabWidget* new_tab_widget_master){
-	tab_widget_master = new_tab_widget_master;
+	global_variables::panel_manager->destroy_panel(panel_type::camera_setting);
 }
 void camera_setting::set_view_widget(opengl_view_widget* new_view_widget){
 	view_widget = new_view_widget;

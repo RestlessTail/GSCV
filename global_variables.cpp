@@ -14,3 +14,4 @@ QString global_variables::default_shader_frag = QString();
 QString global_variables::lang_dir = QString();
 language_manager* global_variables::lang_manager = nullptr;
 settings_t* global_variables::settings = nullptr;
+right_panel_manager* global_variables::panel_manager = nullptr;

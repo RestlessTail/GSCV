@@ -4,39 +4,42 @@
 #include <QToolButton>
 #include "color_scheme.h"
 #include "ui_color_scheme.h"
+#include "opengl_view_widget.h"
+#include "global_variables.h"
 
 color_scheme::color_scheme(QWidget *parent) :
-    QWidget(parent),
+    right_panel_base(parent),
     ui(new Ui::color_scheme)
 {
     ui->setupUi(this);
     ui->gradient_bicolored->setChecked(true);
     ui->gradient_tricolored->setChecked(false);
     setAttribute(Qt::WA_DeleteOnClose, true);
+	set_panel_title(tr("Color scheme"));
 }
 color_scheme::~color_scheme()
 {
     delete ui;
 }
-void color_scheme::set_palette(palette_t *p)
+void color_scheme::set_view_widget(opengl_view_widget *new_view_widget)
 {
-    palette = p;
-    if(p->exp_color_type == color_type::gradient_2){
+    palette = new_view_widget->get_palette();
+    if(palette->exp_color_type == color_type::gradient_2){
         ui->gradient_bicolored->setChecked(true);
         ui->gradient_tricolored->setChecked(false);
         on_gradient_bicolored_clicked();
     }
-    else if(p->exp_color_type == color_type::gradient_3){
+    else if(palette->exp_color_type == color_type::gradient_3){
         ui->gradient_bicolored->setChecked(false);
         ui->gradient_tricolored->setChecked(true);
         on_gradient_tricolored_clicked();
     }
-    set_gradient_high(p->high);
-    set_gradient_mid(p->mid);
-    set_gradient_low(p->low);
-    set_discrete(p->meta_colors);
-    set_background(p->background);
-    set_inactive(p->inactive);
+    set_gradient_high(palette->high);
+    set_gradient_mid(palette->mid);
+    set_gradient_low(palette->low);
+    set_discrete(palette->meta_colors);
+    set_background(palette->background);
+    set_inactive(palette->inactive);
 }
 void color_scheme::set_gradient_high(rgb_color& color)
 {
@@ -193,17 +196,7 @@ void color_scheme::on_discrete_down_clicked()
 }
 void color_scheme::on_close_clicked()
 {
-    tab_widget_master->removeTab(tab_widget_master->indexOf(this));
-    *to_this = nullptr;
-    deleteLater();
-}
-void color_scheme::set_to_this(color_scheme **newTo_this)
-{
-    to_this = newTo_this;
-}
-void color_scheme::set_tab_widget_master(QTabWidget *newTab_widget_master)
-{
-    tab_widget_master = newTab_widget_master;
+	global_variables::panel_manager->destroy_panel(panel_type::color_scheme);
 }
 void color_scheme::add_discrete_color(rgb_color& color, int index){
 	discrete_preview_item* widget = new discrete_preview_item;

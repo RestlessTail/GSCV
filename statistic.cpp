@@ -3,10 +3,9 @@
 #include "opengl_view_widget.h"
 
 statistic::statistic(QWidget *parent) :
-    QWidget(parent),
+    right_panel_base(parent),
     ui(new Ui::statistic)
 {
-    view_widget = nullptr;
     ui->setupUi(this);
     ui->tableWidget->setAlternatingRowColors(true);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -16,6 +15,7 @@ statistic::statistic(QWidget *parent) :
     ui->tableWidget->insertColumn(1);
     ui->tableWidget->setHorizontalHeaderLabels({tr("Property"), tr("Value")});
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
+    set_panel_title(tr("Statistic"));
 }
 
 statistic::~statistic()
@@ -37,26 +37,4 @@ int statistic::update_statistic()
         ui->tableWidget->setHorizontalHeaderLabels({QString(tr("Property")), QString(tr("Value"))});
     }
     return 0;
-}
-
-template<typename T1, typename T2>
-void statistic::add_property(T1 key, T2 value)
-{
-    int row = ui->tableWidget->rowCount();
-    ui->tableWidget->insertRow(row);
-    ui->tableWidget->setItem(row, 0, new QTableWidgetItem(key));
-    ui->tableWidget->setItem(row, 1, new QTableWidgetItem(value));
-}
-
-template<typename T1>
-void statistic::add_property(T1 key, size_t value)
-{
-    int row = ui->tableWidget->rowCount();
-    ui->tableWidget->insertRow(row);
-    ui->tableWidget->setItem(row, 0, new QTableWidgetItem(key));
-    ui->tableWidget->setItem(row, 1, new QTableWidgetItem(QString::number(value)));
-}
-
-void statistic::set_view_widget(opengl_view_widget *widget){
-    view_widget = widget;
 }

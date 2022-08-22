@@ -1,7 +1,7 @@
 #ifndef COLOR_SCHEME_H
 #define COLOR_SCHEME_H
 
-#include <QWidget>
+#include "right_panel_manager.h"
 #include "palette.h"
 
 class QHBoxLayout;
@@ -12,21 +12,19 @@ class QTabWidget;
 namespace Ui {
 class color_scheme;
 }
-class color_scheme : public QWidget
+class color_scheme : public right_panel_base
 {
     Q_OBJECT
 public:
     explicit color_scheme(QWidget *parent = nullptr);
     ~color_scheme();
-    void set_palette(palette_t* p);
+    void set_view_widget(opengl_view_widget *new_view_widget) override;
     void set_gradient_high(rgb_color& color);
     void set_gradient_mid(rgb_color& color);
     void set_gradient_low(rgb_color& color);
     void set_discrete(color_set& color);
     void set_inactive(rgb_color& color);
     void set_background(rgb_color& color);
-    void set_tab_widget_master(QTabWidget *newTab_widget_master);
-    void set_to_this(color_scheme **newTo_this);
 	void add_discrete_color(rgb_color& color, int index);
 private slots:
     void on_gradient_bicolored_clicked();
@@ -44,8 +42,6 @@ private slots:
 private:
     Ui::color_scheme *ui;
     palette_t* palette;
-    QTabWidget* tab_widget_master;
-    color_scheme** to_this;
 };
 class discrete_preview_item : public QWidget{
     Q_OBJECT

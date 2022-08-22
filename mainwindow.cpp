@@ -29,13 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->copy_viewport->setIcon(QIcon(global_variables::icon_copy_viewport));
     ui->right_splitter->setSizes({3,1});
     view_widget = new opengl_view_widget(this);
-    statistic_panel = new statistic;
-    statistic_panel->set_view_widget(view_widget);
-	cell_color_panel = nullptr;
-    color_scheme_panel = nullptr;
-	camera_setting_panel = nullptr;
     ui->opengl_view_layout->addWidget(view_widget);
-    ui->right_panels->addTab(statistic_panel, tr("Statistic"));
+    panel_manager.setup(view_widget, ui->right_panels);
+    panel_manager.open_panel<statistic>(panel_type::statistic);
+    global_variables::panel_manager = &panel_manager;
     progress_dlg = nullptr;
 }
 MainWindow::~MainWindow()
@@ -72,7 +69,8 @@ void MainWindow::on_actionOpen_triggered()
     //connect(reader, &sc_reader::finished, reader, &QObject::deleteLater);
     view_widget->open(filename.toStdString());
     view_widget->clear_color();
-    statistic_panel->update_statistic();
+    panel_manager.get_panel<statistic>(panel_type::statistic)->update_statistic();
+    cell_color* cell_color_panel = panel_manager.get_panel<cell_color>(panel_type::cell_color);
     if (cell_color_panel) {
         cell_color_panel->update_data();
     }
@@ -94,45 +92,15 @@ void MainWindow::on_zoom_out_clicked() {
 }
 void MainWindow::on_actionCell_color_triggered()
 {
-	if(cell_color_panel){
-        ui->right_panels->setCurrentIndex(ui->right_panels->indexOf(cell_color_panel));
-	}
-	else{
-        cell_color_panel = new cell_color;
-		cell_color_panel->set_view_widget(view_widget);
-        cell_color_panel->set_tab_widget_master(ui->right_panels);
-        cell_color_panel->set_to_this(&cell_color_panel);
-        ui->right_panels->addTab(cell_color_panel, tr("Cell color"));
-        ui->right_panels->setCurrentIndex(ui->right_panels->indexOf(cell_color_panel));
-	}
+    panel_manager.open_panel<cell_color>(panel_type::cell_color);
 }
 void MainWindow::on_actionColor_scheme_triggered()
 {
-    if(color_scheme_panel){
-        ui->right_panels->setCurrentIndex(ui->right_panels->indexOf(color_scheme_panel));
-    }
-    else{
-        color_scheme_panel = new color_scheme;
-        color_scheme_panel->set_palette(view_widget->get_palette());
-        color_scheme_panel->set_tab_widget_master(ui->right_panels);
-        color_scheme_panel->set_to_this(&color_scheme_panel);
-        ui->right_panels->addTab(color_scheme_panel, tr("Color scheme"));
-        ui->right_panels->setCurrentIndex(ui->right_panels->indexOf(color_scheme_panel));
-    }
+    panel_manager.open_panel<color_scheme>(panel_type::color_scheme);
 }
 void MainWindow::on_actionCamera_settings_triggered()
 {
-	if(camera_setting_panel){
-		ui->right_panels->setCurrentIndex(ui->right_panels->indexOf(camera_setting_panel));
-	}
-	else{
-		camera_setting_panel = new camera_setting;
-		camera_setting_panel->set_view_widget(view_widget);
-		camera_setting_panel->set_tab_widget_master(ui->right_panels);
-		camera_setting_panel->set_to_this(&camera_setting_panel);
-		ui->right_panels->addTab(camera_setting_panel, tr("Camera settings"));
-		ui->right_panels->setCurrentIndex(ui->right_panels->indexOf(camera_setting_panel));
-	}
+    panel_manager.open_panel<camera_setting>(panel_type::camera_setting);
 }
 
 void MainWindow::on_actionImport_triggered() {

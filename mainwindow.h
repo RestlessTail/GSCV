@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "right_panel_manager.h"
 
 class opengl_view_widget;
 class statistic;
@@ -21,15 +22,10 @@ public:
     ~MainWindow();
     opengl_view_widget* view_widget;
     QProgressDialog* progress_dlg;
-    statistic* statistic_panel;
-	cell_color* cell_color_panel;
-    color_scheme* color_scheme_panel;
-	camera_setting* camera_setting_panel;
     void destroy_progress_dlg();
 private slots:
     void on_actionOpen_triggered();
     void on_actionReport_bug_triggered();
-	//void send_data_to_opengl_view(sc_data* data);
     void on_zoom_in_clicked();
     void on_zoom_out_clicked();
     void on_actionCell_color_triggered();
@@ -43,6 +39,8 @@ private slots:
     void on_actionSettings_triggered();
     void on_actionView_help_triggered();
 
+private:
+    right_panel_manager panel_manager;
 private:
     Ui::MainWindow *ui;
 };

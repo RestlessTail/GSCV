@@ -5,19 +5,25 @@
 #include "ui_cell_color.h"
 #include "utils.h"
 #include "opengl_view_widget.h"
+#include "global_variables.h"
 
 cell_color::cell_color(QWidget *parent) :
-    QWidget(parent),
+    right_panel_base(parent),
     ui(new Ui::cell_color)
 {
     ui->setupUi(this);
     ui->radio_continous->setChecked(true);
     ui->radio_categorical->setChecked(false);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    set_panel_title(tr("Cell color"));
 }
 cell_color::~cell_color()
 {
     delete ui;
+}
+void cell_color::set_view_widget(opengl_view_widget* widget){
+    view_widget = widget;
+    update_data();
 }
 void cell_color::on_search_gene_go_clicked()
 {
@@ -56,12 +62,7 @@ void cell_color::on_meta_combobox_currentTextChanged(const QString &arg1)
     }
 }
 void cell_color::on_close_panel_clicked(){
-    tab_widget_master->removeTab(tab_widget_master->indexOf(this));
-    *to_this = nullptr;
-    deleteLater();
-}
-void cell_color::set_to_this(cell_color **newTo_this){
-    to_this = newTo_this;
+    global_variables::panel_manager->destroy_panel(panel_type::cell_color);
 }
 void cell_color::update_data()
 {
@@ -71,7 +72,3 @@ void cell_color::update_data()
         ui->meta_combobox->addItem(QString::fromStdString(i));
     }
 }
-void cell_color::set_tab_widget_master(QTabWidget *newTab_widget_master){
-    tab_widget_master = newTab_widget_master;
-}
-

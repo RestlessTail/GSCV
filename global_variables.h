@@ -5,6 +5,7 @@
 
 class language_manager;
 class settings_t;
+class right_panel_manager;
 
 class global_variables{
 public:
@@ -21,6 +22,7 @@ public:
 	static QString lang_dir;
 	static language_manager* lang_manager;
 	static settings_t* settings;
+	static right_panel_manager* panel_manager;
 };
 
 #endif
