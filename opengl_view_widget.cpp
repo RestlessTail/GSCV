@@ -196,6 +196,7 @@ void opengl_view_widget::mouseReleaseEvent(QMouseEvent *e)
     mouse_status = mouse_status_t::release;
     update_view_mat();
 }
+/*
 void opengl_view_widget::update_vertex_solid()
 {
     makeCurrent();
@@ -211,7 +212,7 @@ void opengl_view_widget::update_vertex_solid()
     VBO.allocate(vertex_data, buffer_size * sizeof(GLfloat));
     delete[] vertex_data;
     update();
-}
+}*/
 void opengl_view_widget::set_point_size(float size, bool is_update)
 {
     point_size = size;
@@ -277,19 +278,6 @@ void opengl_view_widget::update_vertex_meta(int meta_index, bool continuous)
     VBO.allocate(vertex_data, buffer_size * sizeof(GLfloat));
     delete[] vertex_data;
     update();
-}
-void opengl_view_widget::fill_VBO_solid(GLfloat *dest)
-{
-    int offset = 0;
-    float *pos_data = reader.get_cell_position();
-    size_t array_size = 2 * reader.get_n_cell();
-    for (int i = 0; i < array_size;)
-    {
-        dest[offset++] = pos_data[i++];
-        dest[offset++] = pos_data[i++];
-        palette.calculate_solid(dest + offset);
-        offset += 3;
-    }
 }
 void opengl_view_widget::fill_VBO_exp(GLfloat *dest)
 {
@@ -521,7 +509,7 @@ void opengl_view_widget::clear_color()
 {
     if (reader.is_active)
     {
-        update_vertex_solid();
+        //update_vertex_solid();
     }
 }
 int opengl_view_widget::get_meta_preview(std::string &meta_name, std::vector<std::string> &dest, int top_n)

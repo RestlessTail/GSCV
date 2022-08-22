@@ -23,7 +23,6 @@ private slots:
     void on_search_gene_go_clicked();
     void on_meta_go_clicked();
     void on_clear_color_clicked();
-
     void on_meta_combobox_currentTextChanged(const QString &arg1);
     void on_close_panel_clicked();
 

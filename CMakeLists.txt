@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 project(GSCV VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_PREFIX_PATH /home/shichengge/Qt/6.2.4/gcc_64/)

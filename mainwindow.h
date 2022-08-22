@@ -38,6 +38,7 @@ private slots:
     void on_copy_viewport_clicked();
     void on_actionSettings_triggered();
     void on_actionView_help_triggered();
+    void on_actionJitter_plot_triggered();
 
 private:
     right_panel_manager panel_manager;

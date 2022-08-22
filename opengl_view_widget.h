@@ -17,6 +17,7 @@
 
 class string;
 class vector;
+class plot_base;
 
 enum class mouse_status_t {
     left,
@@ -57,27 +58,28 @@ public:
     constexpr float get_size_lim_max(){ return 20.0f; }
     constexpr float get_size_lim_min(){ return 1.0f; }
     std::chrono::system_clock::time_point last_update_time;
-private:
 	sc_reader reader;
+	color_type active_color_type;
+	QOpenGLBuffer VBO;
     palette_t palette;
+    template <typename T1> void update_view(plot_base* plot_type);
+private:
     float color_val_max;
     float color_val_min;
     void find_exp_extremes();
     void update_cell_pos_lim();
-    void update_vertex_solid();
+    //void update_vertex_solid();
     void update_vertex_exp(std::string& gene_name);
     void update_vertex_meta(int meta_index, bool continuous);
 	void update_view_mat();
 	QOpenGLVertexArrayObject VAO;
-	QOpenGLBuffer VBO;
 	QOpenGLShaderProgram shader_program;
 	QMatrix4x4 view_mat;
-	color_type active_color_type;
 signals:
 	void scale_changed(float val);
 	void size_changed(float val);
 private:
-	void fill_VBO_solid(GLfloat* dest);
+	//void fill_VBO_solid(GLfloat* dest);
     void fill_VBO_exp(GLfloat* dest);
 	void fill_VBO_exp_gradient_2(GLfloat* dest);
 	void fill_VBO_exp_gradient_3(GLfloat* dest);
@@ -102,5 +104,15 @@ private:
     std::pair<float, float> mouse_position;
 private:
 };
+
+template <typename T1> void opengl_view_widget::update_view(plot_base* plot_type){
+    makeCurrent();
+    glClearColor(palette.background.r(), palette.background.g(), palette.background.b(), 1.0f);
+    VAO.bind();
+    VBO.bind();
+    T1* tp = static_cast<T1*>(plot_type);
+    tp->fill_VBO();
+    update();
+}
 
 #endif // OPENGL_VIEW_WIDGET_H

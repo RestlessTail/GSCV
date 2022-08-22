@@ -17,6 +17,7 @@
 #include "settings_dialog.h"
 #include "statistic.h"
 #include "settings.h"
+#include "default_plot.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -68,7 +69,10 @@ void MainWindow::on_actionOpen_triggered()
     //connect(reader, &sc_reader::send_data, this, &MainWindow::send_data_to_opengl_view);
     //connect(reader, &sc_reader::finished, reader, &QObject::deleteLater);
     view_widget->open(filename.toStdString());
-    view_widget->clear_color();
+    //view_widget->clear_color();
+    default_plot p;
+    p.set_view_widget(view_widget);
+    view_widget->update_view<default_plot>(&p);
     panel_manager.get_panel<statistic>(panel_type::statistic)->update_statistic();
     cell_color* cell_color_panel = panel_manager.get_panel<cell_color>(panel_type::cell_color);
     if (cell_color_panel) {
@@ -168,4 +172,7 @@ void MainWindow::on_actionView_help_triggered(){
     if(!QDesktopServices::openUrl(url)){
         QMessageBox::critical(this, tr("Error"), tr("Failed to open documents in browser. You can find documents in directory \"doc\" in the installation directory."));
     }
+}
+void MainWindow::on_actionJitter_plot_triggered(){
+
 }

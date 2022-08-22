@@ -6,6 +6,7 @@
 #include "utils.h"
 #include "opengl_view_widget.h"
 #include "global_variables.h"
+#include "default_plot.h"
 
 cell_color::cell_color(QWidget *parent) :
     right_panel_base(parent),
@@ -27,6 +28,7 @@ void cell_color::set_view_widget(opengl_view_widget* widget){
 }
 void cell_color::on_search_gene_go_clicked()
 {
+    /*
     std::string gene_name = ui->gene_symbol->text().toStdString();
     if(gene_name.empty()){
         return;
@@ -35,9 +37,11 @@ void cell_color::on_search_gene_go_clicked()
         QString q_gene_name = QString::fromStdString(gene_name);
         QMessageBox::information(this, QString(tr("Information")), QString(tr("Failed to find ")) + q_gene_name + QString(tr(".")));
     }
+    */
 }
 void cell_color::on_meta_go_clicked()
 {
+    /*
     std::string meta_name = ui->meta_combobox->currentText().toStdString();
     bool continuous = ui->radio_continous->isChecked();
     if(meta_name.empty()){
@@ -46,10 +50,14 @@ void cell_color::on_meta_go_clicked()
     if(view_widget->set_meta(meta_name, continuous)){
         QMessageBox::critical(this, QString(tr("Critical")), QString(tr("Internal error.")));
     }
+    */
 }
 void cell_color::on_clear_color_clicked()
 {
-    view_widget->clear_color();
+    //view_widget->clear_color();
+    default_plot p;
+    p.set_view_widget(view_widget);
+    view_widget->update_view<default_plot>(&p);
 }
 void cell_color::on_meta_combobox_currentTextChanged(const QString &arg1)
 {

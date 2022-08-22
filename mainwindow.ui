@@ -92,7 +92,7 @@
      <x>0</x>
      <y>0</y>
      <width>1294</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -123,6 +123,8 @@
     <addaction name="actionCell_color"/>
     <addaction name="actionColor_scheme"/>
     <addaction name="actionCamera_settings"/>
+    <addaction name="separator"/>
+    <addaction name="actionJitter_plot"/>
     <addaction name="separator"/>
     <addaction name="menuSave_viewport"/>
    </widget>
@@ -186,6 +188,11 @@
   <action name="actionView_help">
    <property name="text">
     <string>View help</string>
+   </property>
+  </action>
+  <action name="actionJitter_plot">
+   <property name="text">
+    <string>Jitter plot</string>
    </property>
   </action>
  </widget>
