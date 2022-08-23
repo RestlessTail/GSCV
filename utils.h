@@ -74,4 +74,6 @@ size_t get_file_size(FILE* fp);
 
 size_t get_file_size(std::filesystem::path file);
 
+float safe_atof(const char* s);
+
 #endif

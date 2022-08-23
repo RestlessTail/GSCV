@@ -200,3 +200,16 @@ size_t get_file_size(std::filesystem::path file) {
     fp = nullptr;
     return ret;
 }
+
+float safe_atof(const char *s) {
+    char c = 0;
+    const char *cp = s;
+    while ((c = *(cp++)))
+    {
+        if (!isdigit(c) && c != '.')
+        {
+            return 0.0f;
+        }
+    }
+    return atof(s);
+}
