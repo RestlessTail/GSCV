@@ -230,10 +230,6 @@ void opengl_view_widget::open(std::filesystem::path filename)
     translation.first = 0.0f;
     translation.second = 0.0f;
 }
-palette_t *opengl_view_widget::get_palette()
-{
-    return &palette;
-}
 size_t opengl_view_widget::get_n_cell()
 {
     return reader.get_n_cell();

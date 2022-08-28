@@ -39,42 +39,42 @@ class opengl_view_widget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_
 public:
 	opengl_view_widget(QWidget *parent);
 	~opengl_view_widget();
-	float get_scale(){ return scale; }
-	void set_scale(float scale, bool is_update);
-	constexpr float get_scale_lim_max(){ return 10.0f; }
-	constexpr float get_scale_lim_min(){ return -10.0f; }
-	int get_meta_preview(std::string& meta_name, std::vector<std::string>& dest, int top_n);
-	std::vector<std::string>& get_meta();
-	//void clear_color();
 	void open(std::filesystem::path filename);
-	palette_t* get_palette();
+	template <typename T1> void update_view(plot_base* plot_type);
+public:
+	float get_point_size(){ return point_size; }
+	float get_scale(){ return scale; }
+	int get_meta_preview(std::string& meta_name, std::vector<std::string>& dest, int top_n);
 	size_t get_n_cell();
 	size_t get_n_gene();
 	std::string get_archive_name();
+	std::vector<std::string>& get_meta();
+	void set_scale(float scale, bool is_update);
 	void set_point_size(float size, bool is_update);
-	float get_point_size(){ return point_size; }
+	constexpr float get_scale_lim_max(){ return 10.0f; }
+	constexpr float get_scale_lim_min(){ return -10.0f; }
 	constexpr float get_size_lim_max(){ return 20.0f; }
 	constexpr float get_size_lim_min(){ return 1.0f; }
-	std::chrono::system_clock::time_point last_update_time;
+public:
 	sc_reader reader;
 	color_type active_color_type;
 	QOpenGLBuffer VBO;
 	palette_t palette;
-	template <typename T1> void update_view(plot_base* plot_type);
+	std::chrono::system_clock::time_point last_update_time;
 private:
 	void update_cell_pos_lim();
 	void update_view_mat();
 	QOpenGLVertexArrayObject VAO;
 	QOpenGLShaderProgram shader_program;
 	QMatrix4x4 view_mat;
-signals:
-	void scale_changed(float val);
-	void size_changed(float val);
 private:
 	float point_size;
 	float scale;
 	std::pair<float, float> translation;
 	cell_pos_lim_t cell_pos_lim;
+private:
+	mouse_status_t mouse_status;
+	std::pair<float, float> mouse_position;
 protected:
 	virtual void initializeGL() override;
 	virtual void paintGL() override;
@@ -82,10 +82,9 @@ protected:
 	virtual void mouseMoveEvent(QMouseEvent* e) override;
 	virtual void mousePressEvent(QMouseEvent* e) override;
 	virtual void mouseReleaseEvent(QMouseEvent* e) override;
-private:
-	mouse_status_t mouse_status;
-	std::pair<float, float> mouse_position;
-private:
+signals:
+	void scale_changed(float val);
+	void size_changed(float val);
 };
 
 template <typename T1> void opengl_view_widget::update_view(plot_base* plot_type){

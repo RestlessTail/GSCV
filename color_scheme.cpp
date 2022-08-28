@@ -23,7 +23,7 @@ color_scheme::~color_scheme()
 }
 void color_scheme::set_view_widget(opengl_view_widget *new_view_widget)
 {
-    palette = new_view_widget->get_palette();
+    palette = &(new_view_widget->palette);
     if(palette->exp_color_type == color_type::gradient_2){
         ui->gradient_bicolored->setChecked(true);
         ui->gradient_tricolored->setChecked(false);
@@ -183,7 +183,7 @@ void color_scheme::on_discrete_down_clicked()
 {
 	int index = ui->discrete_preview->currentRow();
 	int size = palette->meta_colors.size();
-	if(index == -1 || index >= size - 1){ return; }
+	if(index < 0 || index >= size - 1){ return; }
 	palette->meta_colors.move_down(index);
 	ui->discrete_preview->setCurrentRow(index + 1);
 	for(int i = 0; i < size; ++i){

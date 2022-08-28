@@ -18,6 +18,7 @@
 #include "statistic.h"
 #include "settings.h"
 #include "default_plot.h"
+#include "jitter_plot_panel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -174,5 +175,5 @@ void MainWindow::on_actionView_help_triggered(){
     }
 }
 void MainWindow::on_actionJitter_plot_triggered(){
-
+    panel_manager.open_panel<jitter_plot_panel>(panel_type::jitter_plot);
 }

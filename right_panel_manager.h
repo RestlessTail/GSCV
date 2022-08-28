@@ -15,6 +15,7 @@ enum class panel_type{
 	camera_setting,
 	cell_color,
 	color_scheme,
+	jitter_plot,
 	enum_size
 };
 
